@@ -1,4 +1,4 @@
-import { Injectable, Inject, Logger } from '@nestjs/common';
+import { Injectable, Inject, Logger, NotFoundException } from '@nestjs/common';
 import { JsonRpcProvider } from 'ethers';
 import { APP_CONFIG } from '../config';
 import type { AppConfig } from '../config';
@@ -21,7 +21,7 @@ export class UniswapService {
         
         const pairAddress = await this.uniswapV2Factory.getPair(fromTokenAddress, toTokenAddress);
         if (pairAddress === '0x0000000000000000000000000000000000000000') {
-            throw new Error('No pair found for the given token addresses');
+            throw new NotFoundException('No pair found for the given token addresses');
         }
 
         const inToken = ERC20__factory.connect(fromTokenAddress, this.provider);
