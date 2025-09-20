@@ -1,19 +1,26 @@
 ## Description
 
-This is a test task for a Backend Engineer position at 1inch - [description](./Test%20task%20-%20Backend%20Engineer.docx.pdf).
+This is a test task for a Backend Engineer position at 1inch - [Test Task](./Test%20task%20-%20Backend%20Engineer.docx.pdf).
 
 ## Solution
 
-The solution provides implementation that fully suffices the requirements of the task:
+The solution provides implementation that fully suffices the requirements of the task (N - requirement, A - answer):
 
-* You cannot use on-chain functions to get return amount. You can only get state metadata for off-chain calculation (e.g. balances). You need to implement the math on backend side
-- Solution uses ERC20.balanceOf(pair) to get reserves for the pair, correctly includes the uniswap fee into calculation
+**1.** You cannot use on-chain functions to get return amount. You can only get state metadata for off-chain calculation (e.g. balances). You need to implement the math on backend side.
 
-* You can only use ethers or web3 libraries to communicate with blockchain and perform off-chain calculations
-- Solution uses ethers v6 to communicate with blockchain. For interaction with contracts I used typechain, that generate type-safe bindings from ABIs (see src/abi directory), generation script is in package.json.
+**A:** Solution uses `ERC20.balanceOf(pair)` to get reserves for the pair, correctly includes the uniswap fee into calculation.
 
-* The response time of `/gasPrice` should be not more than 50ms
-- Solution implements background polling of gas price. When `/gasPrice` is called, it returns cached value. The response time I get locally is ~14ms, to reproduce the result, start the app with `pnpm run start:prod` and run `pnpm checkGasPriceResponseTime`
+----------------------------------------------------------------------
+
+**2.** You can only use ethers or web3 libraries to communicate with blockchain and perform off-chain calculations.
+
+**A:** Solution uses ethers v6 to communicate with blockchain. For interaction with contracts I used [typechain](https://www.npmjs.com/package/typechain), it generates type-safe ethers contract bindings from ABIs (see `src/abi` directory), generation script is located in `package.json`.
+
+----------------------------------------------------------------------
+
+**3.** The response time of `/gasPrice` should be not more than 50ms.
+
+**A:** To achieve this latency, solution could not afford to make RPC request during gas price resolution. Instead solution implements background polling of gas price and caches the results. When `/gasPrice` is called, it returns cached value. The response time I get locally is ~14ms. To reproduce the result, start the app with `pnpm run start:prod` and run `pnpm checkGasPriceResponseTime`.
 
 ## Project setup
 
@@ -42,7 +49,4 @@ $ pnpm run test
 
 # e2e tests
 $ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
 ```
