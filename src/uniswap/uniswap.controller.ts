@@ -1,6 +1,5 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UniswapService } from './uniswap.service';
-// import { EthAddressParamPipe } from '../common/pipes/address.pipe';
 import { EthAddressParam } from '../common/decorators/eth-address';
 
 @Controller()
