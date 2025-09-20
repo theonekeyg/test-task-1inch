@@ -17,6 +17,11 @@ const envSchema = z
       .min(1, 'PORT must be between 1 and 65535')
       .max(65535, 'PORT must be between 1 and 65535')
       .default(3000),
+    GAS_FETCH_INTERVAL_MS: z
+      .coerce.number()
+      .int('GAS_FETCH_INTERVAL_MS must be an integer')
+      .min(100, 'GAS_FETCH_INTERVAL_MS must be >100')
+      .default(5000),
   });
 
 // export type AppConfig = {
