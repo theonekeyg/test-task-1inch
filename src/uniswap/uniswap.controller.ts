@@ -1,6 +1,7 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { UniswapService } from './uniswap.service';
 import { EthAddressParam } from '../common/decorators/eth-address';
+import { ParseBigIntPipe } from '../common/pipes/parse-bigint.pipe';
 
 @Controller()
 export class UniswapController {
@@ -11,7 +12,7 @@ export class UniswapController {
     async returnHandler(
         @EthAddressParam('fromTokenAddress') fromTokenAddress: string,
         @EthAddressParam('toTokenAddress') toTokenAddress: string,
-        @Param('amountIn') amountIn: string,
+        @Param('amountIn', new ParseBigIntPipe()) amountIn: bigint,
     ) {
         return this.uniswapService.swapQuote(fromTokenAddress, toTokenAddress, amountIn);
     }
