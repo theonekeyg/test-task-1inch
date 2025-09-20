@@ -1,13 +1,13 @@
 import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { JsonRpcProvider } from 'ethers';
 import { APP_CONFIG } from '../config';
 import type { AppConfig } from '../config';
-import { JsonRpcProvider } from 'ethers';
 
 
 @Injectable()
 export class GasService implements OnModuleInit, OnModuleDestroy {
 
-  provider: JsonRpcProvider;
+  private provider: JsonRpcProvider;
   private readonly logger = new Logger(GasService.name);
   private pollTimer: NodeJS.Timeout | null = null;
   private gasPriceFetchIntervalMs: number;

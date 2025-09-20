@@ -22,11 +22,12 @@ const envSchema = z
       .int('GAS_FETCH_INTERVAL_MS must be an integer')
       .min(100, 'GAS_FETCH_INTERVAL_MS must be >100')
       .default(5000),
+    UNISWAP_V2_FACTORY_ADDRESS: z
+      .string()
+      .trim()
+      .regex(/^0x[a-fA-F0-9]{40}$/i, 'UNISWAP_V2_FACTORY_ADDRESS must match 0x[a-fA-F0-9]{40}')
+      .describe('Address of the Uniswap V2 Factory contract'),
   });
-
-// export type AppConfig = {
-//   rpcUrl: string;
-// };
 
 export type AppConfig = z.infer<typeof envSchema>;
 
