@@ -101,7 +101,7 @@ describe('Uniswap (e2e)', () => {
       .get(`/return/${fromToken}/${toToken}/${amountIn.toString()}`)
       .expect(200);
 
-    expect(res.body).toEqual({ outputAmount: expected });
+    expect(res.body).toEqual({ amountOut: expected });
   });
 
   it('GET /return returns error when no pair exists', async () => {
