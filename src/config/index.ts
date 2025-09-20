@@ -11,6 +11,12 @@ const envSchema = z
       .refine((val) => /^https?:\/\//i.test(val), {
         message: 'ETH_RPC_URL must start with http:// or https://',
       }),
+    PORT: z
+      .coerce.number()
+      .int('PORT must be an integer')
+      .min(1, 'PORT must be between 1 and 65535')
+      .max(65535, 'PORT must be between 1 and 65535')
+      .default(3000),
   });
 
 // export type AppConfig = {
