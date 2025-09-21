@@ -1,4 +1,5 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
+import { isAddress } from 'ethers';
 
 /**
  * Validates an Ethereum address string.
@@ -23,6 +24,12 @@ export class VerifyEthAddressPipe implements PipeTransform<string, string> {
       throw new BadRequestException(
         `Invalid Ethereum address: ${value}. Expected format: 0x[a-fA-F0-9]{40}`,
       );
+    }
+
+    if (!isAddress(value)) {
+      throw new BadRequestException(
+        `Invalid Ethereum address: ${value}. Did not pass ethers.isAddress check.`
+      )
     }
 
     return value; // preserve original casing
