@@ -8,7 +8,8 @@ export class UniswapController {
 
   @Get('return/:fromTokenAddress/:toTokenAddress/:amountIn')
   async returnHandler(
-    @Param('fromTokenAddress', new VerifyEthAddressPipe()) fromTokenAddress: string,
+    @Param('fromTokenAddress', new VerifyEthAddressPipe())
+    fromTokenAddress: string,
     @Param('toTokenAddress', new VerifyEthAddressPipe()) toTokenAddress: string,
     @Param('amountIn', new ParseBigIntPipe()) amountIn: bigint,
   ) {
