@@ -20,7 +20,7 @@ The solution provides implementation that fully suffices the requirements of the
 
 **3.** The response time of `/gasPrice` should be not more than 50ms.
 
-**A:** To achieve this latency, solution could not afford to make RPC request during gas price resolution. Instead solution implements background polling of gas price and caches the results. When `/gasPrice` is called, it returns cached value. The response time I get locally is ~14ms. To reproduce the result, start the app with `pnpm run start:prod` and run `pnpm checkGasPriceResponseTime`.
+**A:** To achieve this latency, solution could not afford to make RPC request during gas price resolution. Instead solution implements background polling of gas price and caches the results. When `/gasPrice` is called, it returns cached value. The response time I get locally is ~14ms. To reproduce the result, start the app with `pnpm run start:prod` and run designated benchmark `pnpm checkGasPriceResponseTime`.
 
 ## Project setup
 
@@ -29,13 +29,24 @@ Install dependencies
 $ pnpm install
 ```
 
-For local run, copy prepared `.env.example` to `.env`
+## Run tests
+
 ```bash
-$ cp .env.example .env
+# unit tests
+$ pnpm run test
+
+# e2e tests
+$ pnpm run test:e2e
 ```
 
 ## Compile and start the server locally
 
+Copy prepared `.env.example` to `.env`
+```bash
+$ cp .env.example .env
+```
+
+Start local server
 ```bash
 # development
 $ pnpm run start
@@ -61,14 +72,4 @@ $ pnpm checkGasPriceResponseTime
 ### Swap 1e18 WETH to USDT
 ```bash
 $ curl "http://localhost:3000/return/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xdac17f958d2ee523a2206206994597c13d831ec7/1000000000000000000"
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
 ```
