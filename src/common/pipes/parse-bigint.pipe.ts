@@ -1,6 +1,19 @@
 import { BadRequestException, Injectable, PipeTransform } from '@nestjs/common';
 
-// Parses a positive integer string into bigint (no decimals allowed)
+/**
+ * Converts an incoming string value into a bigint.
+ *
+ * Validation
+ * - Accepts only non-negative base-10 integer strings (regex: `/^[0-9]+$/`).
+ * - Disallows decimals, signs, hex prefixes (e.g., `0x`), separators, or whitespace.
+ *
+ * Behavior
+ * - On valid input, returns `BigInt(value)`.
+ * - On invalid input, throws `BadRequestException` with a descriptive message.
+ *
+ * Example
+ * - `@Param('amountIn', new ParseBigIntPipe()) amountIn: bigint`
+ */
 @Injectable()
 export class ParseBigIntPipe implements PipeTransform<string, bigint> {
   private readonly pattern = /^[0-9]+$/;
