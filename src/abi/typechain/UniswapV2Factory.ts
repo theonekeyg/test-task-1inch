@@ -13,7 +13,7 @@ import type {
   ContractRunner,
   ContractMethod,
   Listener,
-} from "ethers";
+} from 'ethers';
 import type {
   TypedContractEvent,
   TypedDeferredTopicFilter,
@@ -21,69 +21,69 @@ import type {
   TypedLogDescription,
   TypedListener,
   TypedContractMethod,
-} from "./common";
+} from './common';
 
 export interface UniswapV2FactoryInterface extends Interface {
   getFunction(
     nameOrSignature:
-      | "allPairs"
-      | "allPairsLength"
-      | "createPair"
-      | "feeTo"
-      | "feeToSetter"
-      | "getPair"
-      | "setFeeTo"
-      | "setFeeToSetter"
+      | 'allPairs'
+      | 'allPairsLength'
+      | 'createPair'
+      | 'feeTo'
+      | 'feeToSetter'
+      | 'getPair'
+      | 'setFeeTo'
+      | 'setFeeToSetter',
   ): FunctionFragment;
 
-  getEvent(nameOrSignatureOrTopic: "PairCreated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: 'PairCreated'): EventFragment;
 
   encodeFunctionData(
-    functionFragment: "allPairs",
-    values: [BigNumberish]
+    functionFragment: 'allPairs',
+    values: [BigNumberish],
   ): string;
   encodeFunctionData(
-    functionFragment: "allPairsLength",
-    values?: undefined
+    functionFragment: 'allPairsLength',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "createPair",
-    values: [AddressLike, AddressLike]
+    functionFragment: 'createPair',
+    values: [AddressLike, AddressLike],
   ): string;
-  encodeFunctionData(functionFragment: "feeTo", values?: undefined): string;
+  encodeFunctionData(functionFragment: 'feeTo', values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "feeToSetter",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "getPair",
-    values: [AddressLike, AddressLike]
+    functionFragment: 'feeToSetter',
+    values?: undefined,
   ): string;
   encodeFunctionData(
-    functionFragment: "setFeeTo",
-    values: [AddressLike]
+    functionFragment: 'getPair',
+    values: [AddressLike, AddressLike],
   ): string;
   encodeFunctionData(
-    functionFragment: "setFeeToSetter",
-    values: [AddressLike]
+    functionFragment: 'setFeeTo',
+    values: [AddressLike],
+  ): string;
+  encodeFunctionData(
+    functionFragment: 'setFeeToSetter',
+    values: [AddressLike],
   ): string;
 
-  decodeFunctionResult(functionFragment: "allPairs", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'allPairs', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "allPairsLength",
-    data: BytesLike
+    functionFragment: 'allPairsLength',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "createPair", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "feeTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'createPair', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'feeTo', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "feeToSetter",
-    data: BytesLike
+    functionFragment: 'feeToSetter',
+    data: BytesLike,
   ): Result;
-  decodeFunctionResult(functionFragment: "getPair", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "setFeeTo", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'getPair', data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: 'setFeeTo', data: BytesLike): Result;
   decodeFunctionResult(
-    functionFragment: "setFeeToSetter",
-    data: BytesLike
+    functionFragment: 'setFeeToSetter',
+    data: BytesLike,
   ): Result;
 }
 
@@ -92,13 +92,13 @@ export namespace PairCreatedEvent {
     token0: AddressLike,
     token1: AddressLike,
     pair: AddressLike,
-    arg3: BigNumberish
+    arg3: BigNumberish,
   ];
   export type OutputTuple = [
     token0: string,
     token1: string,
     pair: string,
-    arg3: bigint
+    arg3: bigint,
   ];
   export interface OutputObject {
     token0: string;
@@ -121,107 +121,107 @@ export interface UniswapV2Factory extends BaseContract {
   queryFilter<TCEvent extends TypedContractEvent>(
     event: TCEvent,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
   queryFilter<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
     fromBlockOrBlockhash?: string | number | undefined,
-    toBlock?: string | number | undefined
+    toBlock?: string | number | undefined,
   ): Promise<Array<TypedEventLog<TCEvent>>>;
 
   on<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   on<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   once<TCEvent extends TypedContractEvent>(
     event: TCEvent,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
   once<TCEvent extends TypedContractEvent>(
     filter: TypedDeferredTopicFilter<TCEvent>,
-    listener: TypedListener<TCEvent>
+    listener: TypedListener<TCEvent>,
   ): Promise<this>;
 
   listeners<TCEvent extends TypedContractEvent>(
-    event: TCEvent
+    event: TCEvent,
   ): Promise<Array<TypedListener<TCEvent>>>;
   listeners(eventName?: string): Promise<Array<Listener>>;
   removeAllListeners<TCEvent extends TypedContractEvent>(
-    event?: TCEvent
+    event?: TCEvent,
   ): Promise<this>;
 
-  allPairs: TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+  allPairs: TypedContractMethod<[arg0: BigNumberish], [string], 'view'>;
 
-  allPairsLength: TypedContractMethod<[], [bigint], "view">;
+  allPairsLength: TypedContractMethod<[], [bigint], 'view'>;
 
   createPair: TypedContractMethod<
     [tokenA: AddressLike, tokenB: AddressLike],
     [string],
-    "nonpayable"
+    'nonpayable'
   >;
 
-  feeTo: TypedContractMethod<[], [string], "view">;
+  feeTo: TypedContractMethod<[], [string], 'view'>;
 
-  feeToSetter: TypedContractMethod<[], [string], "view">;
+  feeToSetter: TypedContractMethod<[], [string], 'view'>;
 
   getPair: TypedContractMethod<
     [arg0: AddressLike, arg1: AddressLike],
     [string],
-    "view"
+    'view'
   >;
 
-  setFeeTo: TypedContractMethod<[_feeTo: AddressLike], [void], "nonpayable">;
+  setFeeTo: TypedContractMethod<[_feeTo: AddressLike], [void], 'nonpayable'>;
 
   setFeeToSetter: TypedContractMethod<
     [_feeToSetter: AddressLike],
     [void],
-    "nonpayable"
+    'nonpayable'
   >;
 
   getFunction<T extends ContractMethod = ContractMethod>(
-    key: string | FunctionFragment
+    key: string | FunctionFragment,
   ): T;
 
   getFunction(
-    nameOrSignature: "allPairs"
-  ): TypedContractMethod<[arg0: BigNumberish], [string], "view">;
+    nameOrSignature: 'allPairs',
+  ): TypedContractMethod<[arg0: BigNumberish], [string], 'view'>;
   getFunction(
-    nameOrSignature: "allPairsLength"
-  ): TypedContractMethod<[], [bigint], "view">;
+    nameOrSignature: 'allPairsLength',
+  ): TypedContractMethod<[], [bigint], 'view'>;
   getFunction(
-    nameOrSignature: "createPair"
+    nameOrSignature: 'createPair',
   ): TypedContractMethod<
     [tokenA: AddressLike, tokenB: AddressLike],
     [string],
-    "nonpayable"
+    'nonpayable'
   >;
   getFunction(
-    nameOrSignature: "feeTo"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'feeTo',
+  ): TypedContractMethod<[], [string], 'view'>;
   getFunction(
-    nameOrSignature: "feeToSetter"
-  ): TypedContractMethod<[], [string], "view">;
+    nameOrSignature: 'feeToSetter',
+  ): TypedContractMethod<[], [string], 'view'>;
   getFunction(
-    nameOrSignature: "getPair"
+    nameOrSignature: 'getPair',
   ): TypedContractMethod<
     [arg0: AddressLike, arg1: AddressLike],
     [string],
-    "view"
+    'view'
   >;
   getFunction(
-    nameOrSignature: "setFeeTo"
-  ): TypedContractMethod<[_feeTo: AddressLike], [void], "nonpayable">;
+    nameOrSignature: 'setFeeTo',
+  ): TypedContractMethod<[_feeTo: AddressLike], [void], 'nonpayable'>;
   getFunction(
-    nameOrSignature: "setFeeToSetter"
-  ): TypedContractMethod<[_feeToSetter: AddressLike], [void], "nonpayable">;
+    nameOrSignature: 'setFeeToSetter',
+  ): TypedContractMethod<[_feeToSetter: AddressLike], [void], 'nonpayable'>;
 
   getEvent(
-    key: "PairCreated"
+    key: 'PairCreated',
   ): TypedContractEvent<
     PairCreatedEvent.InputTuple,
     PairCreatedEvent.OutputTuple,
@@ -229,7 +229,7 @@ export interface UniswapV2Factory extends BaseContract {
   >;
 
   filters: {
-    "PairCreated(address,address,address,uint256)": TypedContractEvent<
+    'PairCreated(address,address,address,uint256)': TypedContractEvent<
       PairCreatedEvent.InputTuple,
       PairCreatedEvent.OutputTuple,
       PairCreatedEvent.OutputObject

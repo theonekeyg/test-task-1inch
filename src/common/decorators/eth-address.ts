@@ -1,4 +1,8 @@
-import { BadRequestException, createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+  BadRequestException,
+  createParamDecorator,
+  ExecutionContext,
+} from '@nestjs/common';
 
 export const EthAddressParam = createParamDecorator(
   (paramName: string, ctx: ExecutionContext) => {

@@ -69,7 +69,9 @@ describe('Uniswap (e2e)', () => {
     erc20ByAddress[toToken] = {
       balanceOf: jest.fn().mockResolvedValue(reserveOut),
     };
-    abiMocks.erc20ConnectMock.mockImplementation((address: string) => erc20ByAddress[address]);
+    abiMocks.erc20ConnectMock.mockImplementation(
+      (address: string) => erc20ByAddress[address],
+    );
 
     const moduleBuilder = await Test.createTestingModule({
       imports: [AppModule],
@@ -92,10 +94,10 @@ describe('Uniswap (e2e)', () => {
   afterEach(async () => {
     if (app) await app.close();
   });
-  
+
   it('GET /return/:from/:to/:amountIn computes outputAmount using reserves', async () => {
     // Expected output per UniswapService formula
-    const expected = "1162";
+    const expected = '1162';
 
     const res = await request(app.getHttpServer())
       .get(`/return/${fromToken}/${toToken}/${amountIn.toString()}`)
@@ -131,7 +133,8 @@ describe('Uniswap (e2e)', () => {
       .expect(404);
 
     // Nest default error body contains statusCode and message
-    expect(res.body.message).toContain('No pair found for the given token addresses');
+    expect(res.body.message).toContain(
+      'No pair found for the given token addresses',
+    );
   });
 });
-

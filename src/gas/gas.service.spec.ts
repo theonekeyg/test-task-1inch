@@ -72,7 +72,10 @@ describe('GasService', () => {
 
     // Cached result should be returned
     const first = await service.getGasPrice();
-    expect(first).toEqual({ gasPriceRaw: '0x3b9aca00', gasPrice: parseInt('3b9aca00', 16) });
+    expect(first).toEqual({
+      gasPriceRaw: '0x3b9aca00',
+      gasPrice: parseInt('3b9aca00', 16),
+    });
 
     // Arrange next poll result
     sendMock.mockResolvedValueOnce('0x4a817c800'); // 20 gwei
@@ -84,7 +87,10 @@ describe('GasService', () => {
     await Promise.resolve();
 
     const second = await service.getGasPrice();
-    expect(second).toEqual({ gasPriceRaw: '0x4a817c800', gasPrice: parseInt('4a817c800', 16) });
+    expect(second).toEqual({
+      gasPriceRaw: '0x4a817c800',
+      gasPrice: parseInt('4a817c800', 16),
+    });
 
     // Ensure background polling was scheduled
     expect(setInterval).toHaveBeenCalled();

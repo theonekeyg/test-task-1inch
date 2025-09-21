@@ -1,17 +1,42 @@
-import { Inject, Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  Logger,
+  OnModuleDestroy,
+  OnModuleInit,
+} from '@nestjs/common';
 import { JsonRpcProvider } from 'ethers';
 import { APP_CONFIG } from '../config';
 import type { AppConfig } from '../config';
 
-
+/**
+ * Responsibilities
+ * - Maintains a background-polling loop to fetch the latest Ethereum gas price
+ *   from the configured JSON-RPC endpoint (`ETH_RPC_URL`).
+ * - Caches the most recent gas price so that the HTTP endpoint can serve
+ *   responses with minimal latency without performing an on-demand RPC call.
+ *
+ * How it works
+ * - On startup (`onModuleInit`), the service performs an immediate fetch to
+ *   warm the cache (best-effort; failures are logged) and then starts a
+ *   `setInterval` polling loop with the interval specified by
+ *   `GAS_FETCH_INTERVAL_MS` in the app config.
+ * - The private `updateGasPrice()` method calls `provider.send('eth_gasPrice', [])`,
+ *   parses the returned hex string into a decimal number (wei), and updates the
+ *   in-memory cache: `{ gasPriceRaw, gasPrice }`.
+ * - The public `getGasPrice()` returns the cached snapshot.
+ *
+ * Performance
+ * - Because requests are served from memory, the `/gasPrice` endpoint exhibits
+ *   very low latency (typically a few milliseconds), while background polling
+ *   keeps values reasonably fresh.
+ */
 @Injectable()
 export class GasService implements OnModuleInit, OnModuleDestroy {
-
   private provider: JsonRpcProvider;
   private readonly logger = new Logger(GasService.name);
   private pollTimer: NodeJS.Timeout | null = null;
   private gasPriceFetchIntervalMs: number;
-  // private readonly pollIntervalMs = 5_000; // adjust as needed
 
   private cache: { gasPriceRaw: string; gasPrice: number } | null = null;
 
@@ -26,10 +51,14 @@ export class GasService implements OnModuleInit, OnModuleDestroy {
     await this.updateGasPrice();
 
     // Start background polling
-    this.logger.log(`Starting background gas price polling with interval ${this.gasPriceFetchIntervalMs}ms`);
+    this.logger.log(
+      `Starting background gas price polling with interval ${this.gasPriceFetchIntervalMs}ms`,
+    );
     this.pollTimer = setInterval(() => {
       this.updateGasPrice().catch((err) =>
-        this.logger.warn(`Background gas price update failed: ${err?.message ?? err}`),
+        this.logger.warn(
+          `Background gas price update failed: ${err?.message ?? err}`,
+        ),
       );
     }, this.gasPriceFetchIntervalMs);
   }
@@ -41,6 +70,7 @@ export class GasService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  // updateGasPrice fetches the current gas price and updates local cache.
   private async updateGasPrice() {
     try {
       const gasPriceRes: string = await this.provider.send('eth_gasPrice', []);
@@ -53,10 +83,12 @@ export class GasService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
+  // getGasPrice reads the gas price value stored in the cache and returns it. If gas price value
+  // is not present in the cache, fetches it.
   async getGasPrice() {
     // Return cached value; background task maintains freshness
     if (!this.cache) {
-      // In rare case cache is not ready yet, do a best-effort immediate update
+      // In case cache is not ready yet, do a best-effort immediate update
       await this.updateGasPrice();
     }
 

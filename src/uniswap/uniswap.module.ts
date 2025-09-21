@@ -9,4 +9,3 @@ import { AppConfigModule } from '../config';
   providers: [UniswapService],
 })
 export class UniswapModule {}
-
