@@ -1,4 +1,4 @@
-import { Module, Provider } from '@nestjs/common';
+import { Module, Global, Provider } from '@nestjs/common';
 import { z } from 'zod';
 
 const envSchema = z.object({
@@ -57,6 +57,7 @@ export const appConfigProvider: Provider = {
   useFactory: () => loadConfig(),
 };
 
+@Global()
 @Module({
   providers: [appConfigProvider],
   exports: [appConfigProvider],

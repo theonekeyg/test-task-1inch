@@ -1,10 +1,9 @@
 import { Module } from '@nestjs/common';
 import { UniswapController } from './uniswap.controller';
 import { UniswapService } from './uniswap.service';
-import { AppConfigModule } from '../config';
 
 @Module({
-  imports: [AppConfigModule],
+  imports: [],
   controllers: [UniswapController],
   providers: [UniswapService],
 })
