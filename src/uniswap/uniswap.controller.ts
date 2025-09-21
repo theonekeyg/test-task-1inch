@@ -14,6 +14,6 @@ export class UniswapController {
         @EthAddressParam('toTokenAddress') toTokenAddress: string,
         @Param('amountIn', new ParseBigIntPipe()) amountIn: bigint,
     ) {
-        return this.uniswapService.swapQuote(fromTokenAddress, toTokenAddress, amountIn);
+        return this.uniswapService.getAmountOut(fromTokenAddress, toTokenAddress, amountIn);
     }
 }

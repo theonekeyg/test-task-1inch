@@ -16,7 +16,7 @@ export class UniswapService {
         this.uniswapV2Factory = UniswapV2Factory__factory.connect(this.config.UNISWAP_V2_FACTORY_ADDRESS, this.provider)
     }
 
-    async swapQuote(fromTokenAddress: string, toTokenAddress: string, amountIn: bigint) {
+    async getAmountOut(fromTokenAddress: string, toTokenAddress: string, amountIn: bigint) {
         this.logger.log(`swapQuote called with from=${fromTokenAddress} to=${toTokenAddress} amountIn=${amountIn}`);
         
         const pairAddress = await this.uniswapV2Factory.getPair(fromTokenAddress, toTokenAddress);
@@ -30,8 +30,11 @@ export class UniswapService {
         const outToken = ERC20__factory.connect(toTokenAddress, this.provider);
         const outTokenReserve = await outToken.balanceOf(pairAddress);
 
-        const outputAmount = (amountIn * BigInt(997) * outTokenReserve) / (BigInt(1000) * inTokenReserve + amountIn * BigInt(997));
-        
-        return { outputAmount: outputAmount.toString() };
+        const amountWithFee = amountIn * BigInt(997);
+        const numerator = amountWithFee * outTokenReserve;
+        const denominator = inTokenReserve * BigInt(1000) + amountWithFee;
+        const amountOut = numerator / denominator;
+
+        return { amountOut: amountOut.toString() };
     }
 }
