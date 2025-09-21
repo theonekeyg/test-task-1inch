@@ -8,7 +8,7 @@ The solution provides implementation that fully suffices the requirements of the
 
 **1.** You cannot use on-chain functions to get return amount. You can only get state metadata for off-chain calculation (e.g. balances). You need to implement the math on backend side.
 
-**A:** Solution uses `ERC20.balanceOf(pair)` to get reserves for the pair, and uses the following formula for output amount calculation: $amountOut = \frac{amountIn * 997 * reserveOut}{amountIn * 997 + reserveIn * 1000}$, correctly including uniswap fee into calculation.
+**A:** Solution uses `ERC20.balanceOf(pair)` to get reserves for the pair, and uses the following formula for output amount calculation: $amountOut = \frac{amountIn * 997 * reserveOut}{amountIn * 997 + reserveIn * 1000}$, correctly including uniswap fee into calculation. Original uniswap's code for this calculation - [link](https://github.com/Uniswap/swap-router-contracts/blob/70bc2e40dfca294c1cea9bf67a4036732ee54303/contracts/libraries/UniswapV2Library.sol#L49-L61).
 
 ----------------------------------------------------------------------
 

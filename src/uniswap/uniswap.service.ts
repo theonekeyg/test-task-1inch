@@ -48,7 +48,8 @@ export class UniswapService {
    * - Resolve the pair address via `UniswapV2Factory.getPair(from, to)`.
    * - Read reserves by calling `ERC20.balanceOf(pair)` on both tokens.
    * - Apply the Uniswap V2 formula with 0.3% fee (997/1000):
-   *   amountOut = (amountIn * 997 * reserveOut) / (reserveIn * 1000 + amountIn * 997)
+   *   amountOut = (amountIn * 997 * reserveOut) / (reserveIn * 1000 + amountIn * 997).
+   *   Uniswap's code for the same calculation - https://github.com/Uniswap/swap-router-contracts/blob/70bc2e40dfca294c1cea9bf67a4036732ee54303/contracts/libraries/UniswapV2Library.sol#L49-L61
    *
    * @param fromTokenAddress ERC-20 token address to swap from
    * @param toTokenAddress   ERC-20 token address to receive
