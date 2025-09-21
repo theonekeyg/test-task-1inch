@@ -8,6 +8,7 @@ import {
 import { JsonRpcProvider } from 'ethers';
 import { APP_CONFIG } from '../config';
 import type { AppConfig } from '../config';
+import { RPC_PROVIDER } from '../ethrpc';
 
 /**
  * Responsibilities
@@ -40,10 +41,12 @@ export class GasService implements OnModuleInit, OnModuleDestroy {
 
   private cache: { gasPriceRaw: string; gasPrice: number } | null = null;
 
-  constructor(@Inject(APP_CONFIG) private readonly config: AppConfig) {
-    const rpcUrl = this.config.ETH_RPC_URL;
+  constructor(
+    @Inject(APP_CONFIG) private readonly config: AppConfig,
+    @Inject(RPC_PROVIDER) provider: JsonRpcProvider,
+  ) {
     this.gasPriceFetchIntervalMs = config.GAS_FETCH_INTERVAL_MS;
-    this.provider = new JsonRpcProvider(rpcUrl);
+    this.provider = provider;
   }
 
   async onModuleInit() {

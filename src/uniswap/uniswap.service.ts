@@ -7,6 +7,7 @@ import {
   UniswapV2Factory__factory,
   ERC20__factory,
 } from '../abi';
+import { RPC_PROVIDER } from '../ethrpc';
 
 /**
  * Responsibilities
@@ -27,9 +28,11 @@ export class UniswapService {
   private provider: JsonRpcProvider;
   private uniswapV2Factory: UniswapV2Factory;
 
-  constructor(@Inject(APP_CONFIG) private readonly config: AppConfig) {
-    const rpcUrl = this.config.ETH_RPC_URL;
-    this.provider = new JsonRpcProvider(rpcUrl);
+  constructor(
+    @Inject(APP_CONFIG) private readonly config: AppConfig,
+    @Inject(RPC_PROVIDER) provider: JsonRpcProvider,
+  ) {
+    this.provider = provider;
     this.uniswapV2Factory = UniswapV2Factory__factory.connect(
       this.config.UNISWAP_V2_FACTORY_ADDRESS,
       this.provider,

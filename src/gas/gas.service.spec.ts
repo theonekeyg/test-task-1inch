@@ -1,6 +1,7 @@
 import { Test } from '@nestjs/testing';
 import { GasService } from './gas.service';
 import { APP_CONFIG, AppConfig } from '../config';
+import { RPC_PROVIDER } from '../ethrpc';
 
 // Mock ethers JsonRpcProvider (avoid referencing variables before init due to jest.mock hoisting)
 jest.mock('ethers', () => {
@@ -48,6 +49,12 @@ describe('GasService', () => {
           provide: APP_CONFIG,
           useValue: config,
         },
+        {
+          provide: RPC_PROVIDER,
+          useValue: {
+            send: sendMock,
+          },
+        },
       ],
     }).compile();
 
@@ -66,8 +73,7 @@ describe('GasService', () => {
     // Act: manual lifecycle init
     await service.onModuleInit();
 
-    // Assert: provider created and used
-    expect(JsonRpcProviderMock).toHaveBeenCalledWith(config.ETH_RPC_URL);
+    // Assert: provider used
     expect(sendMock).toHaveBeenCalledWith('eth_gasPrice', []);
 
     // Cached result should be returned

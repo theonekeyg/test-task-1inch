@@ -3,6 +3,7 @@ import { INestApplication } from '@nestjs/common';
 import request from 'supertest';
 import { App } from 'supertest/types';
 import { APP_CONFIG } from '../src/config';
+import { RPC_PROVIDER } from '../src/ethrpc';
 
 // Hoist-safe mock for JsonRpcProvider that preserves the rest of ethers module
 jest.mock('ethers', () => {
@@ -44,6 +45,9 @@ describe('GasService (e2e)', () => {
       GAS_FETCH_INTERVAL_MS: 1000,
       UNISWAP_V2_FACTORY_ADDRESS: '0x0000000000000000000000000000000000000000',
     });
+
+    // Provide the shared RPC provider with our mocked send
+    moduleBuilder.overrideProvider(RPC_PROVIDER).useValue({ send: sendMock });
 
     const moduleFixture: TestingModule = await moduleBuilder.compile();
 
