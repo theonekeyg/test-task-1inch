@@ -34,7 +34,7 @@ For local run, copy prepared `.env.example` to `.env`
 $ cp .env.example .env
 ```
 
-## Compile and run the project
+## Compile and start the server locally
 
 ```bash
 # development
@@ -45,6 +45,22 @@ $ pnpm run start:dev
 
 # production mode
 $ pnpm run start:prod
+```
+
+## Make requests to the server
+
+### Get gas price
+```bash
+# Simple curl GET request
+$ curl localhost:3000/gasPrice
+
+# Or run delay benchmark
+$ pnpm checkGasPriceResponseTime
+```
+
+### Swap 1e18 WETH to USDT
+```bash
+$ curl "http://localhost:3000/return/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/0xdac17f958d2ee523a2206206994597c13d831ec7/1000000000000000000"
 ```
 
 ## Run tests
